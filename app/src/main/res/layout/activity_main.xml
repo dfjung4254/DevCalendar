@@ -15,18 +15,69 @@
         android:orientation="vertical"
         android:background="#c8000000">
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/MainActivity_Toolbar_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="top"
+                android:background="#be000000"/>
+
             <TextView
                 android:id="@+id/SplashActiviy_TextView_devCalendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/app_logo"
+                android:textSize="25sp"
+                android:textColor="#ffffff"
+                android:fontFamily="sans-serif-smallcaps"/>
+
+        </FrameLayout>
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/MainActivity_TabLayout_tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#be000000"
+            app:tabSelectedTextColor="#ffffff"
+            app:tabTextColor="#6c6c6c"
+            app:tabIndicatorColor="#ffb958">
+
+            <android.support.design.widget.TabItem
+                android:id="@+id/MainActivity_TabItem_monthly"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_marginTop="20dp"
-                android:text="@string/app_logo"
-                android:textSize="30sp"
-                android:textColor="#ffffff"
-                android:fontFamily="sans-serif-smallcaps"
-                android:fontFeatureSettings="bold"/>
+                android:text="Monthly"/>
+
+            <android.support.design.widget.TabItem
+                android:id="@+id/MainActivity_TabItem_weekly"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Weekly" />
+
+            <android.support.design.widget.TabItem
+                android:id="@+id/MainActivity_TabItem_daily"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Daily" />
+
+        </android.support.design.widget.TabLayout>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/MainActivity_ViewPager_viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v4.view.ViewPager>
+
 
     </LinearLayout>
+
+
 
 </FrameLayout>
