@@ -17,11 +17,18 @@ public class MainActivity extends AppCompatActivity {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    MonthlyFragment monthlyFragment;
+    WeeklyFragment weeklyFragment;
+    DailyFragment dailyFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        monthlyFragment = new MonthlyFragment();
+        weeklyFragment = new WeeklyFragment();
+        dailyFragment = new DailyFragment();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.MainActivity_Toolbar_toolbar);
         setSupportActionBar(toolbar);
@@ -64,11 +71,11 @@ public class MainActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch (position){
                 case 0:
-                    return new MonthlyFragment();
+                    return monthlyFragment;
                 case 1:
-                    return new WeeklyFragment();
+                    return weeklyFragment;
                 case 2:
-                    return new DailyFragment();
+                    return dailyFragment;
                 default:
                     return null;
             }

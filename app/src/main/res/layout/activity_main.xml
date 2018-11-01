@@ -25,7 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_gravity="top"
-                android:background="#be000000"/>
+                android:background="@color/toolBarColor"/>
 
             <TextView
                 android:id="@+id/SplashActiviy_TextView_devCalendar"
@@ -43,10 +43,10 @@
             android:id="@+id/MainActivity_TabLayout_tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#be000000"
+            android:background="@color/toolBarColor"
             app:tabSelectedTextColor="#ffffff"
             app:tabTextColor="#6c6c6c"
-            app:tabIndicatorColor="#ffb958">
+            app:tabIndicatorColor="@color/toolBarSelectedColor">
 
             <android.support.design.widget.TabItem
                 android:id="@+id/MainActivity_TabItem_monthly"
