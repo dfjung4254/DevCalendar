@@ -36,14 +36,17 @@ public class DayCalculator {
         int index = 0;
         for(int i = -day; i < arr_month[month]; i++){
             if(i < 0){
-                arr[index] = "";
+                //arr[index] = "";
+                arr[index] = String.valueOf(arr_month[month-1] + i+1);
             }else{
                 arr[index] = String.valueOf(i+1);
             }
             index++;
         }
+        int num = 1;
         for(; index < MonthlyFragment.CALENDARSIZE; index++){
-            arr[index] = "";
+            arr[index] = String.valueOf(num);
+            num++;
         }
     }
 

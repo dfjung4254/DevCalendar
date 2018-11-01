@@ -5,7 +5,8 @@
     <color name="colorAccent">#FF4081</color>
     <color name="toolBarColor">#be000000</color>
     <color name="toolBarSelectedColor">#ffbd6b</color>
-    <color name="calendarBackground">#beffe3bf</color>
+    <color name="calendarBackground">#befffbf6</color>
+    <color name="calendarBackgroundTint">#ffbd6b</color>
     <color name="calendarRed">#ff0000</color>
     <color name="calendarBlue">#0011ff</color>
 </resources>

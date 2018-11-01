@@ -13,6 +13,8 @@ import com.devjk.devcalendar.fragment.DailyFragment;
 import com.devjk.devcalendar.fragment.MonthlyFragment;
 import com.devjk.devcalendar.fragment.WeeklyFragment;
 
+import java.util.Calendar;
+
 public class MainActivity extends AppCompatActivity {
 
     private TabLayout tabLayout;
@@ -20,15 +22,24 @@ public class MainActivity extends AppCompatActivity {
     MonthlyFragment monthlyFragment;
     WeeklyFragment weeklyFragment;
     DailyFragment dailyFragment;
+    public static int currentYear;
+    public static int currentMonth;
+    public static int currentDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        monthlyFragment = new MonthlyFragment();
-        weeklyFragment = new WeeklyFragment();
-        dailyFragment = new DailyFragment();
+        //current 년,월,일 다 초기화.
+        Calendar cal = Calendar.getInstance();
+        currentYear = cal.get(cal.YEAR);
+        currentMonth = cal.get(cal.MONTH) + 1;
+        currentDate = cal.get(cal.DATE);
+
+//        monthlyFragment = new MonthlyFragment();
+//        weeklyFragment = new WeeklyFragment();
+//        dailyFragment = new DailyFragment();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.MainActivity_Toolbar_toolbar);
         setSupportActionBar(toolbar);
@@ -71,11 +82,11 @@ public class MainActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch (position){
                 case 0:
-                    return monthlyFragment;
+                    return new MonthlyFragment();
                 case 1:
-                    return weeklyFragment;
+                    return new WeeklyFragment();
                 case 2:
-                    return dailyFragment;
+                    return new DailyFragment();
                 default:
                     return null;
             }

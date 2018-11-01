@@ -1,6 +1,7 @@
 package com.devjk.devcalendar.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,7 +14,9 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import com.devjk.devcalendar.MainActivity;
 import com.devjk.devcalendar.R;
+import com.devjk.devcalendar.ScheduleActivity;
 import com.devjk.devcalendar.classfile.DayCalculator;
 
 import org.w3c.dom.Text;
@@ -27,24 +30,59 @@ public class MonthlyFragment extends Fragment {
     Button btn_left;
     Button btn_right;
     TextView text_month;
+    TextView text_year;
     GridView gridView;
     DayCalculator dayCalculator = new DayCalculator();
+    int curYear;
+    int curMonth;
+    int curDate;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_monthly, container, false);
 
-        int curYear = 2018;
-        int curMonth = 11;
-        int curDate = 1;
+        curYear = MainActivity.currentYear;
+        curMonth = MainActivity.currentMonth;
+        curDate = MainActivity.currentDate;
 
         btn_left = (Button) view.findViewById(R.id.MonthlyFragment_Button_left);
         btn_right = (Button) view.findViewById(R.id.MonthlyFragment_Button_right);
         text_month = (TextView) view.findViewById(R.id.MonthlyFragment_TextView_month);
+        text_year = (TextView) view.findViewById(R.id.MonthlyFragment_TextView_year);
         gridView = (GridView) view.findViewById(R.id.MonthlyFragment_GridView_gridView);
-
         gridView.setAdapter(new DayAdapter(getContext(), curYear, curMonth, curDate));
+        text_month.setText(curMonth + " 월");
+        text_year.setText(String.valueOf(curYear));
+
+        btn_left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(curMonth == 1){
+                    curYear--;
+                    curMonth = 12;
+                    text_year.setText(String.valueOf(curYear));
+                }else{
+                    curMonth--;
+                }
+                text_month.setText(curMonth + " 월");
+                gridView.setAdapter(new DayAdapter(getContext(), curYear, curMonth, curDate));
+            }
+        });
+        btn_right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(curMonth == 12){
+                    curYear++;
+                    curMonth = 1;
+                    text_year.setText(String.valueOf(curYear));
+                }else{
+                    curMonth++;
+                }
+                text_month.setText(curMonth + " 월");
+                gridView.setAdapter(new DayAdapter(getContext(), curYear, curMonth, curDate));
+            }
+        });
 
         return view;
     }
@@ -57,7 +95,6 @@ public class MonthlyFragment extends Fragment {
         int month;
         int date;
         String dayArr[] = new String[CALENDARSIZE];
-        Boolean dayExtraArr[] = new Boolean[CALENDARSIZE];
         String scheduleArr[] = new String[CALENDARSIZE];
 
         public DayAdapter(Context context, int year, int month, int date){
@@ -66,11 +103,6 @@ public class MonthlyFragment extends Fragment {
             this.year = year;
             this.month = month;
             this.date = date;
-            boolean pre = true;
-            int lastIndex = 1;
-//            for(int i = 0; i < CALENDARSIZE; i++){
-//                dayExtraArr[i] = true;
-//            }
             //알고리즘을 구현해서 각각의 배열에 들어가는 숫자들을 다 설정해준다.
             dayCalculator.calMonth(year, month, dayArr);
             for(int i = 0; i < CALENDARSIZE; i++){
@@ -78,21 +110,6 @@ public class MonthlyFragment extends Fragment {
                 //dayArr setting
                 //scheduleArr1 setting
                 //db조회 있으면 넣고 아니면 ""
-                Log.d("MYTAG______", i+"진입");
-                if(dayArr[i].equals("")){
-                    dayExtraArr[i] = true;
-                    if(pre){
-                        //앞쪽
-                        dayArr[i] = String.valueOf(i+1);
-                    }else{
-                        //뒷쪽
-                        dayArr[i] = String.valueOf(lastIndex);
-                        lastIndex++;
-                    }
-                }else{
-                    dayExtraArr[i] = false;
-                    pre = false;
-                }
                 boolean isData = false;
                 //db 조회할 공간---------------------------
 
@@ -126,17 +143,14 @@ public class MonthlyFragment extends Fragment {
         }
 
         @Override
-        public View getView(int pos, View view, ViewGroup parent) {
-
+        public View getView(final int pos, View view, ViewGroup parent) {
+            final int curDate = Integer.parseInt(dayArr[pos]);
             if(view == null){
                     view = getLayoutInflater().inflate(R.layout.calendar_layout, parent, false);
             }
             TextView date = (TextView) view.findViewById(R.id.CalendarLayout_TextView_date);
             TextView schedule = (TextView) view.findViewById(R.id.CalendarLayout_TextView_schedule1);
             date.setText(dayArr[pos]);
-            if(dayExtraArr[pos]){
-                date.setTextColor(Color.parseColor("#6c6c6c"));
-            }
             schedule.setText(scheduleArr[pos]);
             if(pos % 7 == 0){
                 //일요일
@@ -146,17 +160,36 @@ public class MonthlyFragment extends Fragment {
                 //토요일
                 date.setTextColor(Color.parseColor("#0011ff"));
             }
+            boolean isAvailable = true;
+            if((pos < 8 && curDate > 20)||(pos > 32 && curDate < 12)){
+                //해당 월이 아니라 전월이나 다음월의 숫자는 회색처리하고, false처리.
+                date.setTextColor(Color.parseColor("#7e7e7e"));
+                isAvailable = false;
+            }
             if(scheduleArr[pos].equals("")){
+                //스케쥴이 없을 경우 스케쥴라인을 투명처리함.
                 schedule.setBackgroundColor(Color.parseColor("#00ffffff"));
             }
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //여기 클릭했을때 해당 스케줄 관리 페이지로 넘어가야함
 
-
-                }
-            });
+            if(year == MainActivity.currentYear && month == MainActivity.currentMonth && curDate == MainActivity.currentDate && isAvailable) {
+                //만약 오늘날짜는 달력에 음영색을 더함.
+                view.setBackgroundColor(Color.parseColor("#BEEFD7BA"));
+            }
+            if(isAvailable){
+                //오늘 월에 해당하는 달력날은 스케쥴관리로 넘어갈 수 있음.
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //여기 클릭했을때 해당 스케줄 관리 페이지로 넘어가야함
+                        Intent intent = new Intent(getContext(), ScheduleActivity.class);
+                        intent.putExtra("year", curYear);
+                        intent.putExtra("month", curMonth);
+                        intent.putExtra("date", curDate);
+                        intent.putExtra("day", pos % 7);
+                        startActivity(intent);
+                    }
+                });
+            }
 
 
             return view;
