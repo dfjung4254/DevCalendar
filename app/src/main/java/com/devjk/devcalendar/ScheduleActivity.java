@@ -121,6 +121,9 @@ public class ScheduleActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "저장 성공", Toast.LENGTH_SHORT).show();
                     MainActivity.monthlyFragment.dayAdapter.resetSchedule();
                     MainActivity.monthlyFragment.dayAdapter.notifyDataSetChanged();
+                    MainActivity.weeklyFragment.dayAdapter.resetSchedule();
+                    MainActivity.weeklyFragment.dayAdapter.notifyDataSetChanged();
+                    MainActivity.dailyFragment.searchDB();
                     //주간, 일간도 다 reset?
                     finish();
                 }

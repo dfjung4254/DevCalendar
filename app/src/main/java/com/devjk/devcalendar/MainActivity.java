@@ -14,6 +14,7 @@ import com.devjk.devcalendar.fragment.MonthlyFragment;
 import com.devjk.devcalendar.fragment.WeeklyFragment;
 
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     public static int currentYear;
     public static int currentMonth;
     public static int currentDate;
+    public static HashMap<String, Integer> weekMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +40,9 @@ public class MainActivity extends AppCompatActivity {
         currentYear = cal.get(cal.YEAR);
         currentMonth = cal.get(cal.MONTH) + 1;
         currentDate = cal.get(cal.DATE);
-
+        weekMap = new HashMap<>();
+        weekMap.put("일", 0);weekMap.put("월", 1);weekMap.put("화", 2);
+        weekMap.put("수", 3);weekMap.put("목", 4);weekMap.put("금", 5);weekMap.put("토", 6);
         monthlyFragment = new MonthlyFragment();
         weeklyFragment = new WeeklyFragment();
         dailyFragment = new DailyFragment();

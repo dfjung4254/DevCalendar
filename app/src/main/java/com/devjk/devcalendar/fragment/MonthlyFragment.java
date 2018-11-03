@@ -101,8 +101,8 @@ public class MonthlyFragment extends Fragment {
         int year;
         int month;
         int date;
-        String dayArr[] = new String[CALENDARSIZE];
-        String scheduleArr[] = new String[CALENDARSIZE];
+        String dayArr[];
+        String scheduleArr[];
 
         public DayAdapter(Context context, int year, int month, int date){
             //constructor.
@@ -110,40 +110,15 @@ public class MonthlyFragment extends Fragment {
             this.year = year;
             this.month = month;
             this.date = date;
+            dayArr = new String[CALENDARSIZE];
+            scheduleArr = new String[CALENDARSIZE];
             //알고리즘을 구현해서 각각의 배열에 들어가는 숫자들을 다 설정해준다.
             dayCalculator.calMonth(year, month, dayArr);
-            SQLiteDatabase db = ScheduleDBHelper.getInstance(getContext()).getReadableDatabase();
-            Cursor cursor = db.rawQuery("SELECT * FROM " + ScheduleDBHelper.tableName + "" +
-                    " WHERE year="+year+" AND month="+month+
-                    " ORDER BY date ASC", null);
-            for(int i = 0; i < CALENDARSIZE; i++){
-                //DB search and setting scheduleArr
-                //dayArr setting
-                //scheduleArr1 setting
-                //db조회 있으면 넣고 아니면 ""
-                int curDate = Integer.parseInt(dayArr[i]);
-                boolean isData = false;
-                //db 조회할 공간---------------------------
-                for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()){
-                    Log.d(MainActivity.MYLOG, "DB조회 : " + cursor.getInt(3) + "/" + cursor.getString(4));
-                    if(!((i < 8 && curDate > 20)||(i > 32 && curDate < 12))
-                            && curDate == cursor.getInt(3)){
-                        //일치하는 데이터 찾음.
-                        isData = true;
-                        scheduleArr[i] = cursor.getString(4);
-                        break;
-                    }
-                }
-                //------------------------------------------
-                if(!isData){
-                    scheduleArr[i] = "";
-                }
-            }
+            resetSchedule();
 
         }
         public void resetSchedule(){
             //알고리즘을 구현해서 각각의 배열에 들어가는 숫자들을 다 설정해준다.
-            dayCalculator.calMonth(year, month, dayArr);
             SQLiteDatabase db = ScheduleDBHelper.getInstance(getContext()).getReadableDatabase();
             Cursor cursor = db.rawQuery("SELECT * FROM " + ScheduleDBHelper.tableName + "" +
                     " WHERE year="+year+" AND month="+month+
@@ -232,8 +207,8 @@ public class MonthlyFragment extends Fragment {
                     public void onClick(View view) {
                         //여기 클릭했을때 해당 스케줄 관리 페이지로 넘어가야함
                         Intent intent = new Intent(getContext(), ScheduleActivity.class);
-                        intent.putExtra("year", curYear);
-                        intent.putExtra("month", curMonth);
+                        intent.putExtra("year", year);
+                        intent.putExtra("month", month);
                         intent.putExtra("date", curDate);
                         intent.putExtra("day", pos % 7);
                         startActivity(intent);
