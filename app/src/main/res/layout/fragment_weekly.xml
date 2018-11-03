@@ -5,12 +5,105 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.WeeklyFragment"
-    android:background="#64faffb7">
+    android:background="#00ffffff">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="WeeklyPage"
-        android:layout_gravity="center"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <LinearLayout
+            android:layout_width="350dp"
+            android:layout_height="5dp"
+            android:background="@color/calendarBackgroundTint">
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="350dp"
+            android:layout_height="20dp"
+            android:gravity="center"
+            android:background="@color/calendarBackground">
+
+            <TextView
+                android:id="@+id/WeeklyFragment_TextView_year"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2018"
+                android:textSize="15sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" 년"
+                android:textSize="15sp"/>
+
+            <TextView
+                android:id="@+id/WeeklyFragment_TextView_month"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" 11"
+                android:textSize="15sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" 월"
+                android:textSize="15sp"/>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="350dp"
+            android:layout_height="30dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:background="@color/calendarBackground">
+
+            <Button
+                android:id="@+id/WeeklyFragment_Button_left"
+                android:background="@drawable/arrow_left"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginHorizontal="50dp"
+                android:layout_marginVertical="5dp"
+                android:layout_alignParentLeft="true"/>
+
+            <TextView
+                android:id="@+id/WeeklyFragment_TextView_weekNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="첫째 주"
+                android:textSize="25sp"
+                android:fontFamily="sans-serif"
+                android:gravity="center"/>
+
+            <Button
+                android:id="@+id/WeeklyFragment_Button_right"
+                android:background="@drawable/arrow_right"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginHorizontal="50dp"
+                android:layout_marginVertical="5dp"
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
+
+        <GridView
+            android:id="@+id/WeeklyFragment_GridView_gridView"
+            android:layout_width="350dp"
+            android:layout_height="400dp"
+            android:numColumns="1"
+            android:background="@color/calendarBackground">
+
+        </GridView>
+
+        <LinearLayout
+            android:layout_width="350dp"
+            android:layout_height="5dp"
+            android:background="@color/calendarBackgroundTint">
+        </LinearLayout>
+
+    </LinearLayout>
 
 </FrameLayout>

@@ -104,7 +104,6 @@ public class ScheduleActivity extends AppCompatActivity {
                     Log.d("MYLOG+++++++++++", "쿼리 UPDATE");
                     SQLiteDatabase db = ScheduleDBHelper.getInstance(getApplicationContext()).getWritableDatabase();
                     isSuccess =  db.update(ScheduleDBHelper.tableName, values, "id=?", new String[] {String.valueOf(curId)});
-
                 }else{
                     //insert쿼리
                     if(contents.getText().toString().length() != 0 && title.getText().toString().length() != 0){

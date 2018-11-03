@@ -17,6 +17,8 @@ import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String MYLOG = "MYLOG==========";
+
     private TabLayout tabLayout;
     private ViewPager viewPager;
     public static MonthlyFragment monthlyFragment;

@@ -124,9 +124,8 @@ public class MonthlyFragment extends Fragment {
                 int curDate = Integer.parseInt(dayArr[i]);
                 boolean isData = false;
                 //db 조회할 공간---------------------------
-                cursor.moveToFirst();
-                while(cursor.moveToNext()){
-                    Log.d("MYLOG__________", "DB조회 : " + cursor.getInt(3) + "/" + cursor.getString(4));
+                for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()){
+                    Log.d(MainActivity.MYLOG, "DB조회 : " + cursor.getInt(3) + "/" + cursor.getString(4));
                     if(!((i < 8 && curDate > 20)||(i > 32 && curDate < 12))
                             && curDate == cursor.getInt(3)){
                         //일치하는 데이터 찾음.
@@ -157,9 +156,8 @@ public class MonthlyFragment extends Fragment {
                 int curDate = Integer.parseInt(dayArr[i]);
                 boolean isData = false;
                 //db 조회할 공간---------------------------
-                cursor.moveToFirst();
-                while(cursor.moveToNext()){
-                    Log.d("MYLOG__________", "DB조회 : " + cursor.getInt(3) + "/" + cursor.getString(4));
+                for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()){
+                    Log.d(MainActivity.MYLOG, "DB조회 : " + cursor.getInt(3) + "/" + cursor.getString(4));
                     if(!((i < 8 && curDate > 20)||(i > 32 && curDate < 12))
                             && curDate == cursor.getInt(3)){
                         //일치하는 데이터 찾음.
@@ -218,6 +216,8 @@ public class MonthlyFragment extends Fragment {
                 //스케쥴이 없을 경우 스케쥴라인을 투명처리함.
                 schedule.setBackgroundColor(Color.parseColor("#00ffffff"));
             }else{
+                //스케쥴이 있을 경우 스케쥴라인을 다른색 처리함.
+                Log.d(MainActivity.MYLOG, pos+" 열 에 스케쥴 존재 : " + scheduleArr[pos]);
                 schedule.setBackgroundColor(Color.parseColor("#ffbd6b"));
             }
 
