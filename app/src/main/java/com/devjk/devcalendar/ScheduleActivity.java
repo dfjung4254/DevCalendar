@@ -2,9 +2,11 @@ package com.devjk.devcalendar;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,6 +24,7 @@ public class ScheduleActivity extends AppCompatActivity {
     int curMonth;
     int curDate;
     int curDay;
+    int curId;
     Button btn_back;
     Button btn_submit;
     TextView text_year;
@@ -57,22 +60,22 @@ public class ScheduleActivity extends AppCompatActivity {
         //또한 변형된것인지 완전 새것인건지 판단해야함.
 
         //DB조회 한 후 isModified의 값을 수정.
-
-
-
-
+        SQLiteDatabase db = ScheduleDBHelper.getInstance(this).getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + ScheduleDBHelper.tableName + "" +
+                " WHERE year="+curYear+" AND month="+curMonth+" AND date="+curDate, null);
+        isModified = true;
+        if(cursor.getCount() == 0){
+            //db조회값 없음
             isModified = false;
-            String tmpContents = "기존에 있던 내용";
-            String tmpTitle = "기존에 있던 제목";
-        //기존데이터에 있음
-        if(isModified){
-            contents.setText(tmpContents);
-            title.setText(tmpTitle);
+        }else{
+            //db조회값 있음
+            while(cursor.moveToNext()){
+                curId = cursor.getInt(0);
+                contents.setText(cursor.getString(5));
+                title.setText(cursor.getString(4));
+            }
         }
 
-
-
-        //
         text_year.setText(curYear + " ");
         text_month.setText(curMonth + " ");
         text_date.setText(curDate + " ");
@@ -93,15 +96,20 @@ public class ScheduleActivity extends AppCompatActivity {
                 values.put("date", curDate);
                 values.put("title", title.getText().toString());
                 values.put("contents", contents.getText().toString());
+                Log.d("MYLoG++++++++++++", title.getText().toString());
                 //isModified
                 long isSuccess = 0;
                 if(isModified){
                     //update쿼리
+                    Log.d("MYLOG+++++++++++", "쿼리 UPDATE");
+                    SQLiteDatabase db = ScheduleDBHelper.getInstance(getApplicationContext()).getWritableDatabase();
+                    isSuccess =  db.update(ScheduleDBHelper.tableName, values, "id=?", new String[] {String.valueOf(curId)});
 
                 }else{
                     //insert쿼리
                     if(contents.getText().toString().length() != 0 && title.getText().toString().length() != 0){
                         //텍스트 제목과 내용이 공백이 아닐 시.
+                        Log.d("MYLOG+++++++++++", "쿼리 INSERT");
                         SQLiteDatabase db = ScheduleDBHelper.getInstance(getApplicationContext()).getWritableDatabase();
                         isSuccess =  db.insert(ScheduleDBHelper.tableName, null, values);
                     }
@@ -112,6 +120,9 @@ public class ScheduleActivity extends AppCompatActivity {
                 }else{
                     //저장 성공.
                     Toast.makeText(getApplicationContext(), "저장 성공", Toast.LENGTH_SHORT).show();
+                    MainActivity.monthlyFragment.dayAdapter.resetSchedule();
+                    MainActivity.monthlyFragment.dayAdapter.notifyDataSetChanged();
+                    //주간, 일간도 다 reset?
                     finish();
                 }
 

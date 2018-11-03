@@ -29,7 +29,7 @@ public class ScheduleDBHelper extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         //최초 DB 테이블생성.
         sqLiteDatabase.execSQL("CREATE TABLE " + tableName + " ("+
-                "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "year INTEGER," +
                 "month INTEGER," +
                 "date INTEGER," +

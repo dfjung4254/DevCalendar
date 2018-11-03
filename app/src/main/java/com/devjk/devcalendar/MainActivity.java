@@ -19,9 +19,9 @@ public class MainActivity extends AppCompatActivity {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    MonthlyFragment monthlyFragment;
-    WeeklyFragment weeklyFragment;
-    DailyFragment dailyFragment;
+    public static MonthlyFragment monthlyFragment;
+    public static WeeklyFragment weeklyFragment;
+    public static DailyFragment dailyFragment;
     public static int currentYear;
     public static int currentMonth;
     public static int currentDate;
@@ -37,9 +37,9 @@ public class MainActivity extends AppCompatActivity {
         currentMonth = cal.get(cal.MONTH) + 1;
         currentDate = cal.get(cal.DATE);
 
-//        monthlyFragment = new MonthlyFragment();
-//        weeklyFragment = new WeeklyFragment();
-//        dailyFragment = new DailyFragment();
+        monthlyFragment = new MonthlyFragment();
+        weeklyFragment = new WeeklyFragment();
+        dailyFragment = new DailyFragment();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.MainActivity_Toolbar_toolbar);
         setSupportActionBar(toolbar);
@@ -82,11 +82,11 @@ public class MainActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch (position){
                 case 0:
-                    return new MonthlyFragment();
+                    return monthlyFragment;
                 case 1:
-                    return new WeeklyFragment();
+                    return weeklyFragment;
                 case 2:
-                    return new DailyFragment();
+                    return dailyFragment;
                 default:
                     return null;
             }

@@ -39,6 +39,7 @@ public class MonthlyFragment extends Fragment {
     int curYear;
     int curMonth;
     int curDate;
+    public DayAdapter dayAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,7 +55,8 @@ public class MonthlyFragment extends Fragment {
         text_month = (TextView) view.findViewById(R.id.MonthlyFragment_TextView_month);
         text_year = (TextView) view.findViewById(R.id.MonthlyFragment_TextView_year);
         gridView = (GridView) view.findViewById(R.id.MonthlyFragment_GridView_gridView);
-        gridView.setAdapter(new DayAdapter(getContext(), curYear, curMonth, curDate));
+        dayAdapter = new DayAdapter(getContext(), curYear, curMonth, curDate);
+        gridView.setAdapter(dayAdapter);
         text_month.setText(curMonth + " 월");
         text_year.setText(String.valueOf(curYear));
 
@@ -69,7 +71,8 @@ public class MonthlyFragment extends Fragment {
                     curMonth--;
                 }
                 text_month.setText(curMonth + " 월");
-                gridView.setAdapter(new DayAdapter(getContext(), curYear, curMonth, curDate));
+                dayAdapter = new DayAdapter(getContext(), curYear, curMonth, curDate);
+                gridView.setAdapter(dayAdapter);
             }
         });
         btn_right.setOnClickListener(new View.OnClickListener() {
@@ -83,14 +86,15 @@ public class MonthlyFragment extends Fragment {
                     curMonth++;
                 }
                 text_month.setText(curMonth + " 월");
-                gridView.setAdapter(new DayAdapter(getContext(), curYear, curMonth, curDate));
+                dayAdapter = new DayAdapter(getContext(), curYear, curMonth, curDate);
+                gridView.setAdapter(dayAdapter);
             }
         });
 
         return view;
     }
 
-    private class DayAdapter extends BaseAdapter{
+    public class DayAdapter extends BaseAdapter{
 
         //set member variables
         Context context;
@@ -138,6 +142,38 @@ public class MonthlyFragment extends Fragment {
             }
 
         }
+        public void resetSchedule(){
+            //알고리즘을 구현해서 각각의 배열에 들어가는 숫자들을 다 설정해준다.
+            dayCalculator.calMonth(year, month, dayArr);
+            SQLiteDatabase db = ScheduleDBHelper.getInstance(getContext()).getReadableDatabase();
+            Cursor cursor = db.rawQuery("SELECT * FROM " + ScheduleDBHelper.tableName + "" +
+                    " WHERE year="+year+" AND month="+month+
+                    " ORDER BY date ASC", null);
+            for(int i = 0; i < CALENDARSIZE; i++){
+                //DB search and setting scheduleArr
+                //dayArr setting
+                //scheduleArr1 setting
+                //db조회 있으면 넣고 아니면 ""
+                int curDate = Integer.parseInt(dayArr[i]);
+                boolean isData = false;
+                //db 조회할 공간---------------------------
+                cursor.moveToFirst();
+                while(cursor.moveToNext()){
+                    Log.d("MYLOG__________", "DB조회 : " + cursor.getInt(3) + "/" + cursor.getString(4));
+                    if(!((i < 8 && curDate > 20)||(i > 32 && curDate < 12))
+                            && curDate == cursor.getInt(3)){
+                        //일치하는 데이터 찾음.
+                        isData = true;
+                        scheduleArr[i] = cursor.getString(4);
+                        break;
+                    }
+                }
+                //------------------------------------------
+                if(!isData){
+                    scheduleArr[i] = "";
+                }
+            }
+        }
 
         @Override
         public int getCount() {
@@ -181,6 +217,8 @@ public class MonthlyFragment extends Fragment {
             if(scheduleArr[pos].equals("")){
                 //스케쥴이 없을 경우 스케쥴라인을 투명처리함.
                 schedule.setBackgroundColor(Color.parseColor("#00ffffff"));
+            }else{
+                schedule.setBackgroundColor(Color.parseColor("#ffbd6b"));
             }
 
             if(year == MainActivity.currentYear && month == MainActivity.currentMonth && curDate == MainActivity.currentDate && isAvailable) {
