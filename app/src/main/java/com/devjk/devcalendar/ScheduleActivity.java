@@ -1,12 +1,17 @@
 package com.devjk.devcalendar;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.devjk.devcalendar.classfile.ScheduleDBHelper;
 
 import java.util.Calendar;
 
@@ -23,7 +28,9 @@ public class ScheduleActivity extends AppCompatActivity {
     TextView text_month;
     TextView text_date;
     TextView text_day;
-    EditText editText;
+    EditText contents;
+    EditText title;
+    boolean isModified;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +49,30 @@ public class ScheduleActivity extends AppCompatActivity {
         text_month = (TextView) findViewById(R.id.ScheduleActivity_TextView_month);
         text_date = (TextView) findViewById(R.id.ScheduleActivity_TextView_date);
         text_day = (TextView) findViewById(R.id.ScheduleActivity_TextView_day);
-        editText = (EditText) findViewById(R.id.ScheduleActivity_EditText_editText);
+        contents = (EditText) findViewById(R.id.ScheduleActivity_EditText_contents);
+        title = (EditText) findViewById(R.id.ScheduleActivity_EditText_title);
 
+        //DB에서 해당 년,월,일에 해당하는 스케쥴을 검색하고
+        //해당하는 스케쥴이 있으면 String에 담아 editText에 입력시켜야함.
+        //또한 변형된것인지 완전 새것인건지 판단해야함.
+
+        //DB조회 한 후 isModified의 값을 수정.
+
+
+
+
+            isModified = false;
+            String tmpContents = "기존에 있던 내용";
+            String tmpTitle = "기존에 있던 제목";
+        //기존데이터에 있음
+        if(isModified){
+            contents.setText(tmpContents);
+            title.setText(tmpTitle);
+        }
+
+
+
+        //
         text_year.setText(curYear + " ");
         text_month.setText(curMonth + " ");
         text_date.setText(curDate + " ");
@@ -58,16 +87,40 @@ public class ScheduleActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //여기에서 editText의 내용을 DB에 저장시켜야함.
+                ContentValues values = new ContentValues();
+                values.put("year", curYear);
+                values.put("month", curMonth);
+                values.put("date", curDate);
+                values.put("title", title.getText().toString());
+                values.put("contents", contents.getText().toString());
+                //isModified
+                long isSuccess = 0;
+                if(isModified){
+                    //update쿼리
+
+                }else{
+                    //insert쿼리
+                    if(contents.getText().toString().length() != 0 && title.getText().toString().length() != 0){
+                        //텍스트 제목과 내용이 공백이 아닐 시.
+                        SQLiteDatabase db = ScheduleDBHelper.getInstance(getApplicationContext()).getWritableDatabase();
+                        isSuccess =  db.insert(ScheduleDBHelper.tableName, null, values);
+                    }
+                }
+                if(isSuccess == -1){
+                    //저장 실패.
+                    Toast.makeText(getApplicationContext(), "저장 실패", Toast.LENGTH_SHORT).show();
+                }else{
+                    //저장 성공.
+                    Toast.makeText(getApplicationContext(), "저장 성공", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
 
 
                 //
             }
         });
 
-        //DB에서 해당 년,월,일에 해당하는 스케쥴을 검색하고
-        //해당하는 스케쥴이 있으면 String에 담아 editText에 입력시켜야함.
-        String tmpEdit = "임시입력값";
-        editText.setText(tmpEdit);
+
 
 
     }

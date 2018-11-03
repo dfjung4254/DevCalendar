@@ -2,6 +2,8 @@ package com.devjk.devcalendar.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,6 +20,7 @@ import com.devjk.devcalendar.MainActivity;
 import com.devjk.devcalendar.R;
 import com.devjk.devcalendar.ScheduleActivity;
 import com.devjk.devcalendar.classfile.DayCalculator;
+import com.devjk.devcalendar.classfile.ScheduleDBHelper;
 
 import org.w3c.dom.Text;
 
@@ -105,22 +108,31 @@ public class MonthlyFragment extends Fragment {
             this.date = date;
             //알고리즘을 구현해서 각각의 배열에 들어가는 숫자들을 다 설정해준다.
             dayCalculator.calMonth(year, month, dayArr);
+            SQLiteDatabase db = ScheduleDBHelper.getInstance(getContext()).getReadableDatabase();
+            Cursor cursor = db.rawQuery("SELECT * FROM " + ScheduleDBHelper.tableName + "" +
+                    " WHERE year="+year+" AND month="+month+
+                    " ORDER BY date ASC", null);
             for(int i = 0; i < CALENDARSIZE; i++){
                 //DB search and setting scheduleArr
                 //dayArr setting
                 //scheduleArr1 setting
                 //db조회 있으면 넣고 아니면 ""
+                int curDate = Integer.parseInt(dayArr[i]);
                 boolean isData = false;
                 //db 조회할 공간---------------------------
-
-
-
-
-
+                cursor.moveToFirst();
+                while(cursor.moveToNext()){
+                    Log.d("MYLOG__________", "DB조회 : " + cursor.getInt(3) + "/" + cursor.getString(4));
+                    if(!((i < 8 && curDate > 20)||(i > 32 && curDate < 12))
+                            && curDate == cursor.getInt(3)){
+                        //일치하는 데이터 찾음.
+                        isData = true;
+                        scheduleArr[i] = cursor.getString(4);
+                        break;
+                    }
+                }
                 //------------------------------------------
-                if(isData){
-                    scheduleArr[i] = "data넣어야함";
-                }else {
+                if(!isData){
                     scheduleArr[i] = "";
                 }
             }

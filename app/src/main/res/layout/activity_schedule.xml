@@ -101,7 +101,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="일시 :      "
+                        android:text=" 일시 :      "
                         android:textSize="20sp"
                         android:textStyle="bold"/>
 
@@ -156,16 +156,41 @@
                 <LinearLayout
                     android:layout_marginTop="15dp"
                     android:layout_width="300dp"
-                    android:layout_height="300dp"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
-                    android:padding="10dp"
+                    android:padding="5dp"
+                    android:orientation="horizontal"
+                    android:background="@drawable/border">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="제목 : "
+                        android:textSize="20sp"
+                        android:textStyle="bold"/>
+
+                    <EditText
+                        android:id="@+id/ScheduleActivity_EditText_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000000"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="15dp"
+                    android:layout_width="300dp"
+                    android:layout_height="250dp"
+                    android:layout_gravity="center"
+                    android:padding="5dp"
                     android:background="@drawable/border">
 
                     <EditText
-                        android:id="@+id/ScheduleActivity_EditText_editText"
+                        android:id="@+id/ScheduleActivity_EditText_contents"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="#ffffff"/>
+                        android:textColor="#000000"
+                        android:hint="내용을 입력하세요"/>
 
                 </LinearLayout>
 
