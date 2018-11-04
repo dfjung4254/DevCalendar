@@ -7,6 +7,8 @@ import com.devjk.devcalendar.fragment.MonthlyFragment;
 
 public class DayCalculator {
 
+    private static DayCalculator instance;
+
     //member variables
     public int arr_month[] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     private String arr_day[] = {"일","월","화","수","목","금","토"};
@@ -17,6 +19,14 @@ public class DayCalculator {
     }
 
     //methods
+    public static DayCalculator getInstance(){
+        //dayCalculator는 한개만 호출한다.
+        if(instance == null){
+            instance = new DayCalculator();
+        }
+        return instance;
+    }
+
     public void setFeb(int year, int month){
         if(month == 2){
             if(year%4 == 0 && (year%100!=0 || (year)%400==0)){

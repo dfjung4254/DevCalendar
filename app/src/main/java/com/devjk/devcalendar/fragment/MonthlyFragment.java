@@ -30,12 +30,13 @@ import java.util.Arrays;
 public class MonthlyFragment extends Fragment {
 
     public static final int CALENDARSIZE = 42;
-    Button btn_left;
-    Button btn_right;
-    TextView text_month;
-    TextView text_year;
-    GridView gridView;
-    DayCalculator dayCalculator = new DayCalculator();
+    private Button btn_left;
+    private Button btn_right;
+    private TextView text_month;
+    private TextView text_year;
+    private GridView gridView;
+    private DayCalculator dayCalculator;
+
     int curYear;
     int curMonth;
     int curDate;
@@ -49,6 +50,7 @@ public class MonthlyFragment extends Fragment {
         curYear = MainActivity.currentYear;
         curMonth = MainActivity.currentMonth;
         curDate = MainActivity.currentDate;
+        dayCalculator = DayCalculator.getInstance();
 
         btn_left = (Button) view.findViewById(R.id.MonthlyFragment_Button_left);
         btn_right = (Button) view.findViewById(R.id.MonthlyFragment_Button_right);
@@ -97,12 +99,12 @@ public class MonthlyFragment extends Fragment {
     public class DayAdapter extends BaseAdapter{
 
         //set member variables
-        Context context;
-        int year;
-        int month;
-        int date;
-        String dayArr[];
-        String scheduleArr[];
+        private Context context;
+        private int year;
+        private int month;
+        private int date;
+        private String dayArr[];
+        private String scheduleArr[];
 
         public DayAdapter(Context context, int year, int month, int date){
             //constructor.

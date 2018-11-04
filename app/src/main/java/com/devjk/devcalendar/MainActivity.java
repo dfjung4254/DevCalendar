@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
+
     public static MonthlyFragment monthlyFragment;
     public static WeeklyFragment weeklyFragment;
     public static DailyFragment dailyFragment;
@@ -40,9 +41,11 @@ public class MainActivity extends AppCompatActivity {
         currentYear = cal.get(cal.YEAR);
         currentMonth = cal.get(cal.MONTH) + 1;
         currentDate = cal.get(cal.DATE);
+
         weekMap = new HashMap<>();
         weekMap.put("일", 0);weekMap.put("월", 1);weekMap.put("화", 2);
         weekMap.put("수", 3);weekMap.put("목", 4);weekMap.put("금", 5);weekMap.put("토", 6);
+
         monthlyFragment = new MonthlyFragment();
         weeklyFragment = new WeeklyFragment();
         dailyFragment = new DailyFragment();

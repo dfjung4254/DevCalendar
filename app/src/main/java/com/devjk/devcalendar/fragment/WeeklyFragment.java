@@ -28,20 +28,22 @@ import java.util.HashMap;
 public class WeeklyFragment extends Fragment {
 
     public static final int WEEKSIZE = 7;
-    String weeks[] = {"첫째 주", "둘째 주", "셋째 주", "넷째 주", "다섯째 주", "여섯째 주"};
-    TextView text_year;
-    TextView text_month;
-    TextView text_weekNumber;
-    Button btn_left;
-    Button btn_right;
-    GridView gridView;
-    DayCalculator dayCalculator = new DayCalculator();
     public DayAdapter dayAdapter;
-    int curYear;
-    int curMonth;
-    int curDate;
-    int curWeekIndex;
-    int curWeekMaxIndex;
+
+    private TextView text_year;
+    private TextView text_month;
+    private TextView text_weekNumber;
+    private Button btn_left;
+    private Button btn_right;
+    private GridView gridView;
+
+    private String weeks[] = {"첫째 주", "둘째 주", "셋째 주", "넷째 주", "다섯째 주", "여섯째 주"};
+    private DayCalculator dayCalculator;
+    private int curYear;
+    private int curMonth;
+    private int curDate;
+    private int curWeekIndex;
+    private int curWeekMaxIndex;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,6 +54,7 @@ public class WeeklyFragment extends Fragment {
         curYear = MainActivity.currentYear;
         curMonth = MainActivity.currentMonth;
         curDate = MainActivity.currentDate;
+        dayCalculator = DayCalculator.getInstance();
 
         text_year = (TextView) view.findViewById(R.id.WeeklyFragment_TextView_year);
         text_month = (TextView) view.findViewById(R.id.WeeklyFragment_TextView_month);
@@ -119,17 +122,17 @@ public class WeeklyFragment extends Fragment {
 
     public class DayAdapter extends BaseAdapter{
 
-        Context context;
-        int year;
-        int month;
-        int weekIndex;
-        int weekMaxIndex;
-        int targetDate[] = new int[2]; // 0 : 한 주의 시작날짜, 1 : 한 주의 마지막 날짜.
-        int size;
-        String dateArray[];
-        String dayArray[];
-        String titleArray[];
-        String contentsArray[];
+        private Context context;
+        private int year;
+        private int month;
+        private int weekIndex;
+        private int weekMaxIndex;
+        private int targetDate[] = new int[2]; // 0 : 한 주의 시작날짜, 1 : 한 주의 마지막 날짜.
+        private int size;
+        private String dateArray[];
+        private String dayArray[];
+        private String titleArray[];
+        private String contentsArray[];
 
         public DayAdapter(Context context, int year, int month, int weekIndex){
             //초기화.

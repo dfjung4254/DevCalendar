@@ -25,22 +25,22 @@ import java.util.HashMap;
 
 public class DailyFragment extends Fragment {
 
-    TextView text_year;
-    TextView text_month;
-    TextView text_date;
-    TextView text_day;
-    TextView text_title;
-    TextView text_contents;
-    LinearLayout linearLayout;
-    Button btn_left;
-    Button btn_right;
-    DayCalculator dayCalculator = new DayCalculator();
-    int curYear;
-    int curMonth;
-    int curDate;
-    String curDay;
-    String title;
-    String contents;
+    private TextView text_year;
+    private TextView text_month;
+    private TextView text_date;
+    private TextView text_day;
+    private TextView text_title;
+    private TextView text_contents;
+    private  LinearLayout linearLayout;
+    private Button btn_left;
+    private Button btn_right;
+    private DayCalculator dayCalculator;
+    private int curYear;
+    private int curMonth;
+    private int curDate;
+    private String curDay;
+    private String title;
+    private String contents;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,6 +51,7 @@ public class DailyFragment extends Fragment {
         curYear = MainActivity.currentYear;
         curMonth = MainActivity.currentMonth;
         curDate = MainActivity.currentDate;
+        dayCalculator = DayCalculator.getInstance();
         curDay = dayCalculator.calDay(curYear, curMonth, curDate);
 
         text_year = (TextView) view.findViewById(R.id.DailyFragment_TextView_year);

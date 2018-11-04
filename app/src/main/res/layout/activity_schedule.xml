@@ -153,46 +153,26 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_marginTop="15dp"
+                <EditText
+                    android:id="@+id/ScheduleActivity_EditText_title"
                     android:layout_width="300dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:padding="5dp"
-                    android:orientation="horizontal"
-                    android:background="@drawable/border">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="제목 : "
-                        android:textSize="20sp"
-                        android:textStyle="bold"/>
-
-                    <EditText
-                        android:id="@+id/ScheduleActivity_EditText_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#000000"/>
-
-                </LinearLayout>
-
-                <LinearLayout
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
                     android:layout_marginTop="15dp"
+                    android:textColor="#000000"
+                    android:backgroundTint="@color/toolBarSelectedColor"
+                    android:hint="제목 : "/>
+
+                <EditText
+                    android:id="@+id/ScheduleActivity_EditText_contents"
                     android:layout_width="300dp"
                     android:layout_height="250dp"
-                    android:layout_gravity="center"
-                    android:padding="5dp"
-                    android:background="@drawable/border">
-
-                    <EditText
-                        android:id="@+id/ScheduleActivity_EditText_contents"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#000000"
-                        android:hint="내용을 입력하세요"/>
-
-                </LinearLayout>
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="15dp"
+                    android:textColor="#000000"
+                    android:background="@color/toolBarSelectedTransparent"
+                    android:hint="내용을 입력하세요"
+                    android:gravity="center"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -203,9 +183,20 @@
                         android:id="@+id/ScheduleActivity_Button_submit"
                         android:layout_width="80dp"
                         android:layout_height="40dp"
+                        android:layout_marginHorizontal="15dp"
                         android:background="@color/toolBarColor"
                         android:text="등 록"
                         android:textColor="#ffffff"/>
+
+                    <Button
+                        android:id="@+id/ScheduleActivity_Button_delete"
+                        android:layout_width="80dp"
+                        android:layout_height="40dp"
+                        android:layout_marginHorizontal="15dp"
+                        android:background="@color/toolBarColor"
+                        android:text="초기화"
+                        android:textColor="#ffffff"/>
+
 
                 </LinearLayout>
 
