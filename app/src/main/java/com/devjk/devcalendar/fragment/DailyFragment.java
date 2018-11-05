@@ -41,6 +41,7 @@ public class DailyFragment extends Fragment {
     private String curDay;
     private String title;
     private String contents;
+    private boolean isOnCreated = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,6 +54,7 @@ public class DailyFragment extends Fragment {
         curDate = MainActivity.currentDate;
         dayCalculator = DayCalculator.getInstance();
         curDay = dayCalculator.calDay(curYear, curMonth, curDate);
+        isOnCreated = true;
 
         text_year = (TextView) view.findViewById(R.id.DailyFragment_TextView_year);
         text_month = (TextView) view.findViewById(R.id.DailyFragment_TextView_month);
@@ -133,6 +135,17 @@ public class DailyFragment extends Fragment {
 
     public void searchDB(){
         //DB검색 해서 title과 contents값 갱신
+        //2018.11.06 00:20 수정사항.
+        //오류 수정부분, 기존 제출과제에서는 앱을 켜자마자 바로 Monthly탭에서
+        //Schedule을 만들었을 때 NullPointer오류가 발생하면서 앱이 종료되는 버그 발견.
+        //이유는 DailyFragment 탭을 열지 않았으므로 DailyFragment의 OnCreateView 메서드가 실행이 안된상태
+        //에서 searchDB 메서드의 text_title에 접근하려하여 NullPointer.
+        //해결책으로 DailyFragment의 전역변수로 isOnCreated를 false로 추가.
+        //OnCreateView가 실행되면 true로 전환하여 단 한번도 DailyFragment가 OnCreatedView로 실행이 안되었을때
+        //searchDB메서드를 실행하지 않고 바로 반환한다.
+        if(isOnCreated == false){
+            return;
+        }
         SQLiteDatabase db = ScheduleDBHelper.getInstance(getContext()).getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + ScheduleDBHelper.tableName + "" +
                 " WHERE year="+curYear+" AND month="+curMonth+" AND date="+curDate, null);
